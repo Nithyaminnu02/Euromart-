@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Left Sidebar / Menu -->
+        <div class="sidebar">
+            <div class="logo">
+                <h2>Admin Panel</h2>
+            </div>
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <span id="admin-email">admin@example.com</span>
+            </div>
+            <div class="divider"></div>
+            <ul class="nav-menu">
+                <li class="active" data-tab="dashboard">
+                    <a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                </li>
+                <li data-tab="admin-management">
+                    <a href="#"><i class="fas fa-user-shield"></i> Admin Management</a>
+                </li>
+                <li data-tab="key-management">
+                    <a href="#"><i class="fas fa-key"></i> Key Management</a>
+                </li>
+                <li data-tab="remove-customer">
+                    <a href="#"><i class="fas fa-user-minus"></i> Remove Customer</a>
+                </li>
+            </ul>
+            
+            <div class="sidebar-footer">
+                <button id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+            
+            
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Dashboard Tab -->
+            <div class="content-tab active" id="dashboard-tab">
+                <div class="header">
+                    <h1>Dashboard</h1>
+                </div>
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-title">Total Admins</div>
+                        <div class="stat-value" id="total-admins">0</div>
+                        <div class="stat-icon"><i class="fas fa-user-shield"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Total Keys</div>
+                        <div class="stat-value" id="total-keys">0</div>
+                        <div class="stat-icon"><i class="fas fa-key"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Keys Generated Today</div>
+                        <div class="stat-value" id="keys-today">0</div>
+                        <div class="stat-icon"><i class="fas fa-calendar-day"></i></div>
+                    </div>
+                </div>
+                <div class="dashboard-widgets">
+                    <div class="widget">
+                        <div class="widget-header">
+                            <h3>Recent Keys</h3>
+                        </div>
+                        <div class="widget-content">
+                            <table class="data-table" id="recent-keys-table">
+                                <thead>
+                                    <tr>
+                                        <th>Email</th>
+                                        <th>Key</th>
+                                        <th>Created</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Management Tab -->
+            <div class="content-tab" id="admin-management-tab">
+                <div class="header">
+                    <h1>Admin Management</h1>
+                </div>
+                <div class="actions-bar">
+                    <button class="action-btn" id="add-admin-btn"><i class="fas fa-plus"></i> Add New Admin</button>
+                </div>
+                <div class="data-section">
+                    <table class="data-table" id="admins-table">
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Last Login</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Add Admin Modal -->
+                <div class="modal" id="add-admin-modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2>Add New Admin</h2>
+                            <span class="close-modal">&times;</span>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="new-admin-email">Email</label>
+                                <input type="email" id="new-admin-email" placeholder="Enter admin email">
+                            </div>
+                            <div class="form-group">
+                                <label for="new-admin-password">Password</label>
+                                <input type="password" id="new-admin-password" placeholder="Enter password">
+                            </div>
+                            <div class="form-group">
+                                <label for="new-admin-confirm">Confirm Password</label>
+                                <input type="password" id="new-admin-confirm" placeholder="Confirm password">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="cancel-btn">Cancel</button>
+                            <button class="save-btn" id="save-admin-btn">Save Admin</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Management Tab -->
+            <div class="content-tab" id="key-management-tab">
+                <div class="header">
+                    <h1>Key Management</h1>
+                </div>
+                <div class="actions-bar">
+                    <button class="action-btn" id="generate-key-btn"><i class="fas fa-plus"></i> Generate New Key</button>
+                    <div class="search-bar">
+                        <input type="text" id="key-search" placeholder="Search by email...">
+                        <button id="key-search-btn"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+                <div class="data-section">
+                    <table class="data-table" id="keys-table">
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Key</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Generate Key Modal -->
+                <div class="modal" id="generate-key-modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2>Generate New Key</h2>
+                            <span class="close-modal">&times;</span>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="customer-email">Customer Email</label>
+                                <input type="email" id="customer-email" placeholder="Enter customer email">
+                            </div>
+                            <div id="generated-key-container" style="display: none;" class="generated-key">
+                                <span id="generated-key-value"></span>
+                                <button id="copy-generated-key" class="copy-btn tooltip">
+                                    <i class="fas fa-copy"></i> Copy
+                                    <span class="tooltiptext">Copied!</span>
+                                </button>
+                            </div>
+                            <div id="generate-message" class="message"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="cancel-btn">Cancel</button>
+                            <button class="save-btn" id="confirm-generate-key">Generate Key</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Remove Customer Tab -->
+            <div class="content-tab" id="remove-customer-tab">
+                <div class="header">
+                    <h1>Remove Customer</h1>
+                </div>
+                <div class="actions-bar">
+                    <div class="search-bar wide-search">
+                        <input type="text" id="customer-search" placeholder="Search customer by email...">
+                        <button id="customer-search-btn"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+                <div class="data-section">
+                    <table class="data-table" id="customers-table">
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Key</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Confirm Removal Modal -->
+                <div class="modal" id="confirm-removal-modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2>Confirm Customer Removal</h2>
+                            <span class="close-modal">&times;</span>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure you want to remove this customer and their access key?</p>
+                            <div class="customer-info">
+                                <strong>Email:</strong> <span id="removal-email"></span><br>
+                                <strong>Key:</strong> <span id="removal-key"></span>
+                            </div>
+                            <p class="warning-text">This action cannot be undone!</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="cancel-btn">Cancel</button>
+                            <button class="delete-btn" id="confirm-remove-btn">Remove Customer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

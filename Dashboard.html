@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Business Data Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #e23744;
+      --primary-dark: #d01c29;
+      --primary-light: #ffeded;
+      --secondary: #2e2e2e;
+      --tertiary: #333545;
+      --text-dark: #222;
+      --text-light: #999;
+      --text-white: #fff;
+      --bg-dark: #1f2533;
+      --bg-light: #f5f5f5;
+      --border: #e5e5e5;
+      --success: #67bb6a;
+      --error: #ff6b6b;
+      --warning: #ffb74d;
+      --info: #29b6f6;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: var(--bg-dark);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      color: var(--text-white);
+    }
+    
+    .top-header {
+      background-color: var(--tertiary);
+      padding: 12px 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    .top-header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+    }
+    
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-white);
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo i {
+      margin-right: 10px;
+      color: var(--primary);
+    }
+    
+    .user-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    
+    .user-button {
+      background: none;
+      border: none;
+      color: var(--text-white);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    
+    .user-button i {
+      font-size: 16px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 30px auto;
+      background: var(--bg-light);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    .page-header {
+      background: var(--tertiary);
+      padding: 30px;
+      position: relative;
+    }
+    
+    .page-header:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--primary-dark) 100%);
+    }
+    
+    h1 {
+      color: var(--text-white);
+      font-weight: 700;
+      font-size: 2rem;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    h1 i {
+      color: var(--primary);
+    }
+    
+    .subtitle {
+      color: #ccc;
+      font-size: 1rem;
+      font-weight: 400;
+    }
+    
+    .form-container {
+      padding: 30px;
+      background: white;
+      color: var(--text-dark);
+    }
+    
+    .form-section {
+      background: white;
+      border-radius: 8px;
+      padding: 25px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .form-section:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 4px;
+      background: var(--primary);
+    }
+    
+    .section-title {
+      margin-bottom: 20px;
+      color: var(--text-dark);
+      font-size: 1.2rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .section-title i {
+      color: var(--primary);
+      font-size: 1.1em;
+    }
+    
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    
+    .input-group {
+      position: relative;
+      margin-bottom: 5px;
+    }
+    
+    .input-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--text-dark);
+      font-size: 0.9rem;
+    }
+    
+    .input-group .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    
+    .input-group .input-icon {
+      position: absolute;
+      left: 12px;
+      color: var(--text-light);
+    }
+    
+    .input-group input {
+      width: 100%;
+      padding: 12px 16px 12px 40px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 14px;
+      transition: all 0.3s;
+      background: white;
+      color: var(--text-dark);
+    }
+    
+    .input-group input:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(226, 55, 68, 0.15);
+    }
+    
+    .input-group input.error {
+      border-color: var(--error);
+      background-color: rgba(255, 107, 107, 0.05);
+    }
+    
+    .btn-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 40px;
+      padding-bottom: 20px;
+    }
+    
+    button {
+      padding: 14px 32px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    #submitBtn {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 4px 10px rgba(226, 55, 68, 0.3);
+    }
+    
+    #submitBtn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(226, 55, 68, 0.4);
+    }
+    
+    #resetBtn {
+      background: var(--tertiary);
+      color: white;
+    }
+    
+    #resetBtn:hover {
+      background: var(--secondary);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    button:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+    
+    #dashboard-container {
+      margin-top: 40px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+      display: none;
+      border: 1px solid var(--border);
+      background: white;
+    }
+    
+    .dashboard-header {
+      background: var(--tertiary);
+      color: white;
+      padding: 16px 24px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .dashboard-header i {
+      color: var(--primary);
+      margin-right: 10px;
+    }
+    
+    iframe {
+      width: 100%;
+      height: 700px;
+      border: none;
+      background: white;
+    }
+    
+    .status-message {
+      text-align: center;
+      margin: 20px 0;
+      font-weight: 500;
+      padding: 16px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .error-message {
+      background: rgba(255, 107, 107, 0.1);
+      color: var(--error);
+      border-left: 4px solid var(--error);
+    }
+    
+    .success-message {
+      background: rgba(103, 187, 106, 0.1);
+      color: var(--success);
+      border-left: 4px solid var(--success);
+    }
+    
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin: 20px 0;
+      padding: 16px;
+      background: rgba(226, 55, 68, 0.1);
+      border-radius: 8px;
+      color: var(--primary);
+    }
+    
+    .spinner {
+      border: 3px solid rgba(226, 55, 68, 0.2);
+      border-top: 3px solid var(--primary);
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      animation: spin 1s linear infinite;
+    }
+    
+    .tooltip {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      margin-left: 8px;
+    }
+    
+    .tooltip i {
+      color: var(--text-light);
+      font-size: 14px;
+    }
+    
+    .tooltip-text {
+      visibility: hidden;
+      width: 200px;
+      background-color: var(--tertiary);
+      color: var(--text-white);
+      text-align: center;
+      border-radius: 6px;
+      padding: 8px;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      font-size: 12px;
+      font-weight: normal;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    .tooltip-text::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: var(--tertiary) transparent transparent transparent;
+    }
+    
+    .tooltip:hover .tooltip-text {
+      visibility: visible;
+      opacity: 1;
+    }
+    
+    .dialog {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .dialog-content {
+      background: white;
+      width: 400px;
+      max-width: 90%;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .dialog-header {
+      background: var(--tertiary);
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .dialog-header h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+    
+    .dialog-close {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    
+    .dialog-body {
+      padding: 20px;
+      color: var(--text-dark);
+    }
+    
+    .dialog-footer {
+      padding: 15px 20px;
+      background: #f5f5f5;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    
+    .dialog-footer button {
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    @media screen and (max-width: 768px) {
+      .container {
+        margin: 20px 10px;
+      }
+      
+      .form-container {
+        padding: 20px 15px;
+      }
+      
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .btn-container {
+        flex-direction: column;
+      }
+      
+      button {
+        width: 100%;
+      }
+      
+      .top-header-content {
+        flex-direction: column;
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-header">
+    <div class="top-header-content">
+      <div class="logo">
+        <i class="fas fa-chart-line"></i> Business Data Dashboard
+      </div>
+      <div class="user-actions">
+        <button class="user-button" id="helpBtn">
+          <i class="fas fa-question-circle"></i> Help
+        </button>
+        <button class="user-button">
+          <i class="fas fa-user"></i> My Account
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="page-header">
+      <h1><i class="fas fa-database"></i> Business Data Entry</h1>
+      <p class="subtitle">Enter your business data to visualize performance metrics and insights</p>
+    </div>
+
+    <div class="form-container">
+      <div class="form-section">
+        <h2 class="section-title">
+          <i class="fas fa-shopping-cart"></i> Order Information
+          <div class="tooltip">
+            <i class="fas fa-info-circle"></i>
+            <span class="tooltip-text">Enter order details including ID, date and shipping information.</span>
+          </div>
+        </h2>
+        <div class="form-grid" id="orderInfoContainer"></div>
+      </div>
+
+      <div class="form-section">
+        <h2 class="section-title">
+          <i class="fas fa-user-friends"></i> Customer Details
+          <div class="tooltip">
+            <i class="fas fa-info-circle"></i>
+            <span class="tooltip-text">Enter customer information including name, location and segment.</span>
+          </div>
+        </h2>
+        <div class="form-grid" id="customerInfoContainer"></div>
+      </div>
+
+      <div class="form-section">
+        <h2 class="section-title">
+          <i class="fas fa-box"></i> Product Information
+          <div class="tooltip">
+            <i class="fas fa-info-circle"></i>
+            <span class="tooltip-text">Enter product details including category and name.</span>
+          </div>
+        </h2>
+        <div class="form-grid" id="productInfoContainer"></div>
+      </div>
+
+      <div class="form-section">
+        <h2 class="section-title">
+          <i class="fas fa-chart-bar"></i> Performance Metrics
+          <div class="tooltip">
+            <i class="fas fa-info-circle"></i>
+            <span class="tooltip-text">Enter financial metrics such as sales, profit, discount and quantity.</span>
+          </div>
+        </h2>
+        <div class="form-grid" id="metricsContainer"></div>
+      </div>
+
+      <div id="loadingIndicator" class="loading" style="display: none;">
+        <div class="spinner"></div>
+        <span>Processing your data...</span>
+      </div>
+
+      <div id="statusMessage" class="status-message" style="display: none;"></div>
+
+      <div class="btn-container">
+        <button id="submitBtn"><i class="fas fa-paper-plane"></i> Submit & Show Dashboard</button>
+        <button id="resetBtn"><i class="fas fa-redo"></i> Reset Form</button>
+      </div>
+    </div>
+
+    <div id="dashboard-container">
+      <div class="dashboard-header">
+        <span><i class="fas fa-chart-pie"></i> Interactive Business Dashboard</span>
+        <span id="refreshTime"></span>
+      </div>
+      <iframe id="lookerStudioIframe" sandbox="allow-scripts allow-same-origin"></iframe>
+    </div>
+  </div>
+
+  <div class="dialog" id="helpDialog">
+    <div class="dialog-content">
+      <div class="dialog-header">
+        <h3><i class="fas fa-question-circle"></i> Help</h3>
+        <button class="dialog-close" id="closeHelpBtn">&times;</button>
+      </div>
+      <div class="dialog-body">
+        <p>This Business Data Dashboard allows you to enter your business data and visualize performance metrics.</p>
+        <p>Fill out all the required fields in each section:</p>
+        <ul style="margin-left: 20px; margin-top: 10px;">
+          <li>Order Information: Details about the order</li>
+          <li>Customer Details: Information about the customer</li>
+          <li>Product Information: What was purchased</li>
+          <li>Performance Metrics: Sales figures and other metrics</li>
+        </ul>
+        <p style="margin-top: 15px;">After submitting, your data will be processed and displayed in an interactive dashboard below.</p>
+      </div>
+      <div class="dialog-footer">
+        <button id="closeHelpBtnBottom" style="background: var(--tertiary); color: white;">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const FIELDS = [
+      "Order ID", "Order Date", "Customer Name", "Country", "State", "City", 
+      "Region", "Segment", "Ship Mode", "Category", "Sub-Category", 
+      "Product Name", "Discount", "Sales", "Profit", "Quantity", "Feedback?"
+    ];
+
+    const FIELD_GROUPS = {
+      orderInfoContainer: ["Order ID", "Order Date", "Ship Mode"],
+      customerInfoContainer: ["Customer Name", "Segment", "Country", "State", "City", "Region"],
+      productInfoContainer: ["Category", "Sub-Category", "Product Name"],
+      metricsContainer: ["Sales", "Profit", "Discount", "Quantity", "Feedback?"]
+    };
+
+    // Field icons mapping
+    const FIELD_ICONS = {
+      "Order ID": "fas fa-hashtag",
+      "Order Date": "far fa-calendar-alt",
+      "Ship Mode": "fas fa-shipping-fast",
+      "Customer Name": "fas fa-user",
+      "Segment": "fas fa-users",
+      "Country": "fas fa-globe",
+      "State": "fas fa-map-marker-alt",
+      "City": "fas fa-city",
+      "Region": "fas fa-map",
+      "Category": "fas fa-tags",
+      "Sub-Category": "fas fa-tag",
+      "Product Name": "fas fa-box-open",
+      "Discount": "fas fa-percent",
+      "Sales": "fas fa-dollar-sign",
+      "Profit": "fas fa-coins",
+      "Quantity": "fas fa-sort-amount-up",
+      "Feedback?": "far fa-comment"
+    };
+
+    const NUMERIC_FIELDS = ["Discount", "Sales", "Profit", "Quantity"];
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwVgjYq_c21sOOk8EAt3zABiQDzcsQeTHahVvsSDoPPh21q5mnBs3F-s1FVa8sAyzXAYw/exec";
+    const DASHBOARD_URL = "https://lookerstudio.google.com/embed/reporting/b31204aa-577c-4746-b145-52fdb4172092/page/kUHEF";
+
+    const submitBtn = document.getElementById("submitBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const loadingIndicator = document.getElementById("loadingIndicator");
+    const statusMessage = document.getElementById("statusMessage");
+    const dashboardContainer = document.getElementById("dashboard-container");
+    const refreshTime = document.getElementById("refreshTime");
+    const helpDialog = document.getElementById("helpDialog");
+    const helpBtn = document.getElementById("helpBtn");
+    const closeHelpBtn = document.getElementById("closeHelpBtn");
+    const closeHelpBtnBottom = document.getElementById("closeHelpBtnBottom");
+
+    function initializeForm() {
+      // Create form fields in their respective containers
+      for (const [containerId, fieldList] of Object.entries(FIELD_GROUPS)) {
+        const container = document.getElementById(containerId);
+        
+        fieldList.forEach(field => {
+          const inputGroup = document.createElement("div");
+          inputGroup.className = "input-group";
+
+          const label = document.createElement("label");
+          label.textContent = field;
+          label.htmlFor = field.toLowerCase().replace(/\s+/g, "").replace(/\?/g, "");
+
+          const inputWrapper = document.createElement("div");
+          inputWrapper.className = "input-wrapper";
+
+          const icon = document.createElement("i");
+          icon.className = FIELD_ICONS[field] + " input-icon";
+          inputWrapper.appendChild(icon);
+
+          const input = document.createElement("input");
+          input.type = field.toLowerCase().includes("date") ? "date" : 
+                     NUMERIC_FIELDS.includes(field) ? "number" : "text";
+          input.id = field.toLowerCase().replace(/\s+/g, "").replace(/\?/g, "");
+          input.placeholder = `Enter ${field}`;
+          input.required = true;
+          
+          if (NUMERIC_FIELDS.includes(field)) {
+            input.step = field === "Discount" ? "0.01" : "1";
+            input.min = "0";
+          }
+
+          inputWrapper.appendChild(input);
+          
+          inputGroup.appendChild(label);
+          inputGroup.appendChild(inputWrapper);
+          container.appendChild(inputGroup);
+        });
+      }
+    }
+
+    function validateFormData(formData) {
+      let isValid = true;
+
+      FIELDS.forEach(field => {
+        const key = field.toLowerCase().replace(/\s+/g, "").replace(/\?/g, "");
+        const input = document.getElementById(key);
+
+        if (!formData[field] || formData[field].trim() === "") {
+          input.classList.add("error");
+          isValid = false;
+        } else {
+          input.classList.remove("error");
+        }
+
+        if (NUMERIC_FIELDS.includes(field) && isNaN(formData[field])) {
+          input.classList.add("error");
+          isValid = false;
+        }
+      });
+
+      return isValid;
+    }
+
+    function showStatus(message, isError = false) {
+      statusMessage.innerHTML = isError ? 
+        `<i class="fas fa-exclamation-circle"></i> ${message}` : 
+        `<i class="fas fa-check-circle"></i> ${message}`;
+      statusMessage.className = isError ? "status-message error-message" : "status-message success-message";
+      statusMessage.style.display = "flex";
+      
+      // Scroll to message
+      statusMessage.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function hideStatus() {
+      statusMessage.style.display = "none";
+    }
+
+    async function submitData(formData) {
+      try {
+        loadingIndicator.style.display = "flex";
+        submitBtn.disabled = true;
+        hideStatus();
+
+        await fetch(SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(formData)
+        });
+
+        // Cannot read the response, just show success
+        showStatus("Data submitted successfully! Loading dashboard...", false);
+
+        // Set refresh time
+        const now = new Date();
+        refreshTime.textContent = `Last updated: ${now.toLocaleTimeString()}`;
+        
+        dashboardContainer.style.display = "block";
+        document.getElementById("lookerStudioIframe").src = `${DASHBOARD_URL}?refresh=${Date.now()}`;
+        
+        // Scroll to dashboard
+        dashboardContainer.scrollIntoView({ behavior: 'smooth' });
+
+      } catch (error) {
+        console.error("Submission error:", error);
+        showStatus(`Submission failed: ${error.message}`, true);
+      } finally {
+        loadingIndicator.style.display = "none";
+        submitBtn.disabled = false;
+      }
+    }
+
+    function resetForm() {
+      FIELDS.forEach(field => {
+        const key = field.toLowerCase().replace(/\s+/g, "").replace(/\?/g, "");
+        document.getElementById(key).value = "";
+        document.getElementById(key).classList.remove("error");
+      });
+      hideStatus();
+      dashboardContainer.style.display = "none";
+    }
+
+    function toggleHelpDialog() {
+      if (helpDialog.style.display === "flex") {
+        helpDialog.style.display = "none";
+      } else {
+        helpDialog.style.display = "flex";
+      }
+    }
+
+    submitBtn.addEventListener("click", () => {
+      const formData = {};
+      FIELDS.forEach(field => {
+        const key = field.toLowerCase().replace(/\s+/g, "").replace(/\?/g, "");
+        formData[field] = document.getElementById(key).value.trim();
+      });
+
+      if (validateFormData(formData)) {
+        submitData(formData);
+      } else {
+        showStatus("Please fill all fields correctly. Numeric fields must contain numbers.", true);
+      }
+    });
+
+    resetBtn.addEventListener("click", resetForm);
+    helpBtn.addEventListener("click", toggleHelpDialog);
+    closeHelpBtn.addEventListener("click", toggleHelpDialog);
+    closeHelpBtnBottom.addEventListener("click", toggleHelpDialog);
+    document.addEventListener("DOMContentLoaded", initializeForm);
+  </script>
+</body>
+</html>
