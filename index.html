@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login System</title>
+    <!-- Add in <head> -->
+   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #12192c;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            color: #f0f2f5;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 450px;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .logo {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo i {
+            font-size: 32px;
+            color: #4285f4;
+            margin-right: 10px;
+        }
+
+        h1 {
+            color: #ffffff;
+            margin-bottom: 30px;
+            font-weight: 600;
+            font-size: 28px;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #a0a8c0;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            background-color: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+            color: #ffffff;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #4285f4;
+            background-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.2);
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0a8c0;
+        }
+
+        button {
+            background: linear-gradient(to right, #4285f4, #34a0ff);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 15px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(66, 133, 244, 0.3);
+        }
+
+        button:hover {
+            background: linear-gradient(to right, #3367d6, #2185d0);
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        .message:not(:empty) {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .success {
+            background-color: rgba(40, 167, 69, 0.15);
+            color: #7CFC00;
+            border: 1px solid rgba(40, 167, 69, 0.3);
+        }
+
+        .error {
+            background-color: rgba(220, 53, 69, 0.15);
+            color: #FF6B6B;
+            border: 1px solid rgba(220, 53, 69, 0.3);
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            justify-content: space-between;
+        }
+
+        .remember-checkbox {
+            display: flex;
+            align-items: center;
+        }
+
+        .remember-checkbox input[type="checkbox"] {
+            width: auto;
+            margin-right: 8px;
+            accent-color: #4285f4;
+        }
+
+        .forgot-password {
+            color: #4285f4;
+            font-size: 14px;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .forgot-password:hover {
+            color: #34a0ff;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            input {
+                padding: 12px 12px 12px 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                border-radius: 12px;
+                padding: 25px 15px;
+            }
+            
+            h1 {
+                font-size: 22px;
+                margin-bottom: 20px;
+            }
+            
+            .remember-me {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            animation: fadeIn 0.5s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Logo and Title -->
+        <div class="logo">
+            <i class="fas fa-lock"></i>
+        </div>
+        
+        <!-- Login Form -->
+        <form id="loginForm">
+            <h1>User Login</h1>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <div class="input-group">
+                    <i class="fas fa-envelope input-icon"></i>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="key">Key</label>
+                <div class="input-group">
+                    <i class="fas fa-key input-icon"></i>
+                    <input type="password" id="key" name="key" placeholder="Enter your key" required>
+                </div>
+            </div>
+            <div class="remember-me">
+                <div class="remember-checkbox">
+                    <input type="checkbox" id="remember" name="remember">
+                    <label for="remember" style="margin-bottom: 0;">Remember me</label>
+                </div>
+                <a href="#" class="forgot-password">Forgot Password?</a>
+            </div>
+            
+            <button type="submit" id="loginBtn">
+                <span>Log In</span>
+            </button>
+            <div id="loginMessage" class="message"></div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.getElementById('loginForm');
+            
+            loginForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const email = document.getElementById('email').value;
+                const key = document.getElementById('key').value;
+                const messageDiv = document.getElementById('loginMessage');
+                
+                // Clear previous messages
+                messageDiv.textContent = '';
+                messageDiv.className = 'message';
+                
+                // Show loading state
+                const loginBtn = document.getElementById('loginBtn');
+                loginBtn.disabled = true;
+                loginBtn.innerHTML = '<span>Verifying...</span>';
+
+                const scriptURL = "https://script.google.com/macros/s/AKfycbx09jiHsAb37ecOtK6F40kSqNNEAJbEf108NQScjTmK89nG7t9CUzf4tMrrK2GYmDM/exec";
+                fetch(scriptURL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, key })
+                    })
+                    .then(() => {
+    // No response available here — assume success if needed
+                       messageDiv.textContent = 'Request sent. Please wait...';
+                       messageDiv.classList.add('success');
+                       setTimeout(() => {
+                               window.location.href = 'dashboard.html';
+                       }, 2000);
+                     })
+                    .catch(error => {
+                        messageDiv.textContent = 'Unable to send request';
+                        messageDiv.classList.add('error');
+                        console.error('Error:', error);
+                      })
+                    .finally(() => {
+                          loginBtn.disabled = false;
+                          loginBtn.innerHTML = '<span>Log In</span>';
+
+                       });
+
+                       })
+
+                       })          
+        
+    </script>
+</body>
+</html>
